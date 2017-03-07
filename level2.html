@@ -1,0 +1,170 @@
+<!DOCTYPE html> 
+<!--
+    Author      : FITROX
+    Description : level 2
+    Based on Layout provided by: Copyright (c) 2014 Afnizar Nur Ghifari @ http://www.free-css.com/
+--> 
+<html> 
+    <head> 
+        <title>GeoGame Test: Level 2</title>         
+        <meta charset="UTF-8"> 
+        <meta name="description" content="Game about geometric constructions &amp; HTML template by @flamekaizar"> 
+        <meta name="author" content="Fitrox Rox"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1" /> 
+        
+        <link rel="stylesheet" type="text/css" href="css/test3/styles_test3e.css"> 
+        
+        <link rel="shortcut icon" href="img/favicon.png" />         
+        
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>             
+        <script type="text/javascript" src="javascript/deployggb_original.js"></script>         
+        <script type="text/javascript" src="javascript/ggbapplet_parameters.js"></script>    
+        
+        <script type="text/javascript" src="javascript/system_base.js"></script>         
+        <script type="text/javascript" src="javascript/system_level2.js"></script>   
+              
+    </head>     
+    <body>      
+        <script>
+            /* When the user clicks on the button, 
+            toggle between hiding and showing the dropdown content */
+            function showDrop() {
+                document.getElementById("myDropdown").classList.toggle("show");
+            }
+
+            // Close the dropdown if the user clicks outside of it
+            window.onclick = function(e) {
+              if (!e.target.matches('.dropbtn')) {
+
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                for (var d = 0; d < dropdowns.length; d++) {
+                  var openDropdown = dropdowns[d];
+                  if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                  }
+                }
+              }
+            }
+        </script>         
+        <div class="main-nav"> 
+            <div class="container"> 
+                <header class="group top-nav"> 
+                    <nav class="navbar logo-w navbar-left"> 
+                        <a class="logo" href="index.html">GeoGame</a> 
+                    </nav>                     
+                    <div class="navigation-toggle" data-tools="navigation-toggle" data-target="#navbar-1"> 
+                        <span class="logo">Geogame</span> 
+                    </div>                     
+                    <nav id="navbar-1" class="navbar item-nav navbar-right"> 
+                        <ul> 
+                            <li><a href="index.html">Ínicio</a></li>                             
+                            <!--li class="dropdown"> 
+                                <a href="javascript:void(0)" class="dropbtn" onclick="showDrop()">Níveis</a> 
+                                <div class="dropdown-content" id="myDropdown"> 
+                                    <a href="tutorial.html">Tutorial</a> 
+                                    <a id="active" href="level1.html">Nível 1</a> 
+                                    <a href="level2.html">Nível 2</a> 
+                                </div>                                 
+                            </li-->  
+                            <li><a href="level_hub.html">Níveis</a></li>                                 
+                            <li><a href="help.html">Ajuda</a></li>                             
+                            <li><a href="about.html">Sobre</a></li>                                
+                        </ul>                         
+                    </nav>                     
+                </header>                 
+            </div>             
+        </div>         
+        <div id="wrap"> 
+            <div id="main"> 
+                <div id="level_title"> 
+                    <h1>Nível 2</h1> 
+                </div>                 
+                <div id="objective"> 
+                    <p><strong>Objetivo</strong>: Lorem ipsum dolor sit amet, consectetur adipiscing elit. In faucibus ante vitae metus ornare auctor. 
+                            Nunc congue neque eget placerat sollicitudin</p> 
+                </div>                 
+                <div id="reference"> 
+                    <img src="img/level1b.png" alt="Um triângulo equilátero"> 
+                </div>                 
+                <div id="min_moves"> 
+                    <p>Número minímo de passos: 999</p> 
+                </div>                 
+                <div id="button_bar"> 
+                    <script>
+                        $(document).ready(function(){
+                            $("#hint_button").click(function(){
+                                document.getElementById('feedback').innerHTML = "Construa dois círculos de mesmo raio."
+                            });
+
+                            $("#resetbutton").click(function(){
+                                step = 0;
+                                $.ajax({
+                                    url:ggbApplet.reset(),
+                                    success:function(){
+                                        printConstructionState();
+                                        resetLevel();
+                                        document.getElementById('feedback').innerHTML = "atividade reiniciada.";
+                                    }
+                                })                                                
+                            });    
+                            $("#button_checkExercise").click(function(){
+                                checkExercise();
+                            });                        
+                        });                    
+                    </script>                     
+                    <button id="hint_button" class="myButton" title="Clique para receber uma dica.">Dica</button>                     
+                    <button id="button_checkExercise" class="myButton">Verificar construção</button>                     
+                    <button id="resetbutton" class="myButton" title="Clique para reiniciar a atividade.">Reiniciar</button>                     
+                </div>                 
+                <div id="textbox_hint"> 
+                    <span id="feedback" class="result_div">Clique para verificar sua construção.</span> 
+                </div>                 
+                <div id="textbox"> 
+                    <form name="listenerForm"> 
+                        <div style="text-align: left; width: inherit"> 
+                            <br>Tabela de objetos:
+                            <br> 
+                            <textarea style="resize:none; width: 75%" name="consState" rows="10"></textarea>                             
+                        </div>                         
+                    </form>                     
+                </div>                 
+            </div>             
+            <div id="sidebar"> 
+                <div class="applet"> 
+                    <script type="text/javascript">
+                        parameters.customToolBar = "0 | 501 | 5 | 15 | 18 | 10 | 16"; 
+                        parameters.filename = "ggb/Level1e.ggb";                       
+                        //parameters.language = "pt";
+                        //parameters.country = "BR";
+                    </script>                     
+                    <div id="applet_container"></div>                     
+                </div>                 
+            </div>             
+            <div id="bottonbar"> 
+                <div id="valid_box" style="display: none"> 
+                    <br>Justifique sua construção:
+                    <br> 
+                    <div id="validation_questions"></div>                     
+                    <div id="validation_button"> 
+                        <script>
+                            $(document).ready(function(){
+                                $("#checkValidation").click(function(){
+                                    checkValidation();
+                                });
+                            });                                                 
+                        </script>                         
+                        <button id="checkValidation">Verificar justificativa</button>                         
+                        <div id="textbox_awnser"> 
+                            <span id="awnser" class="result_div">Clique para verificar seu argumento.</span> 
+                        </div>                         
+                    </div>                     
+                </div>                 
+            </div>             
+            <div class="container"> 
+                <div id="footer" class="foot-cp"> 
+                    <p> 2017 Fitrox Rox. Criado com <a href="http://www.geogebra.org/">GeoGebra</a>.</p> 
+                </div>                 
+            </div>             
+        </div>         
+    </body>     
+</html>

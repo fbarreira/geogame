@@ -1,0 +1,219 @@
+<!DOCTYPE html> 
+<!--
+    Author      : FITROX
+    Description : Tutorial for GeoGame
+    Based on Layout provided by: Copyright (c) 2014 Afnizar Nur Ghifari @ http://www.free-css.com/
+    layout 2.0
+--> 
+<html> 
+    <head> 
+        <title>GeoGame: Tutorial</title>         
+        <meta charset="UTF-8"> 
+        <meta name="description" content="Game about geometric constructions &amp; HTML template by @flamekaizar"> 
+        <meta name="author" content="Fitrox Rox"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1" /> 
+        
+        <link rel="stylesheet" type="text/css" href="css/test3/styles_tutorial.css"> 
+        
+        <link rel="shortcut icon" href="favicon.ico" />     
+        
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"></script>         
+        <script type="text/javascript" src="javascript/deployggb_original.js"></script>         
+        <script type="text/javascript" src="javascript/ggbapplet_parameters.js"></script>         
+        
+        <script type="text/javascript" src="javascript/system_base.js"></script>         
+        <script type="text/javascript" src="javascript/system_tutorial.js"></script>      
+    </head>     
+    <body> 
+        <script>
+            /* When the user clicks on the button, 
+            toggle between hiding and showing the dropdown content */
+            function showDrop() {
+                document.getElementById("myDropdown").classList.toggle("show");
+            }
+
+            // Close the dropdown if the user clicks outside of it
+            window.onclick = function(e) {
+              if (!e.target.matches('.dropbtn')) {
+
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                for (var d = 0; d < dropdowns.length; d++) {
+                  var openDropdown = dropdowns[d];
+                  if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                  }
+                }
+              }
+            }
+        </script>         
+        <div class="main-nav"> 
+            <div class="container"> 
+                <header class="group top-nav"> 
+                    <nav class="navbar logo-w navbar-left"> 
+                        <a class="logo" href="index.html">GeoGame</a> 
+                    </nav>                     
+                    <div class="navigation-toggle" data-tools="navigation-toggle" data-target="#navbar-1"> 
+                        <span class="logo">Geogame</span> 
+                    </div>                     
+                    <nav id="navbar-1" class="navbar item-nav navbar-right"> 
+                        <ul> 
+                            <li> 
+                                <a href="index.html">Início</a> 
+                            </li>                             
+                            <!--li class="dropdown"> 
+                                <a href="javascript:void(0)" class="dropbtn" onclick="showDrop()">Níveis</a> 
+                                <div class="dropdown-content" id="myDropdown"> 
+                                    <a id="active" href="tutorial.html">Tutorial</a> 
+                                    <a href="level1.html">Nível 1</a> 
+                                    <a href="level2.html">Nível 2</a> 
+                                    <a href="#">Nível 3</a> 
+                                    <a href="#">Nível 4</a> 
+                                    <a href="#">Nível 5</a> 
+                                    <a href="#">Nível 6</a> 
+                                    <a href="#">Nível 7</a> 
+                                    <a href="#">Nível 8</a> 
+                                </div>                                 
+                            </li-->                             
+                            <li><a href="level_hub.html">Níveis</a></li>                                 
+                            <li><a href="help.html">Ajuda</a></li>                             
+                            <li><a href="about.html">Sobre</a></li>                            
+                        </ul>                         
+                    </nav>                     
+                </header>                 
+            </div>             
+        </div>         
+        <div id="wrap"> 
+            <div id="main"> 
+                <div id="level_title"> 
+                    <h1>Tutorial</h1> 
+                </div>                 
+                <div id="objective"> 
+                    <p><strong>Objetivo</strong>: Conhecer as ferramentas básicas do Geogebra para construções geométricas. 
+                        <br>Note que você pode clicar nas flechas no canto superior esquerdo para voltar/refazer o último passo.</p> 
+                    <ol> 
+                        <li>Selecione 
+                            <img src="img/tool_circle2.png" title="Círculo dados Centro e Um de seus Pontos" /> 
+                            na aba ferramentas do Geogebra e trace um 
+                            <b>círculo</b> clicando no ponto A e depois  no ponto B.
+                            <span id="circle1" class="checkmarker"> &check;</span> 
+                        </li>                         
+                        <li id="hidden1">Novamente selecione a ferramenta 
+                            <b>círculo</b> 
+                            mas desta vez faça um círculo com centro no ponto B até o ponto C.
+                            <span id="circle2" class="checkmarker"> &check;</span> 
+                        </li>                         
+                        <li id="hidden2">Com a ferramenta 
+                            <img src="img/tool_intersection2.png" title="Interseção de Dois Objetos"> 
+                            crie um ponto em uma das 
+                            <b>interseções</b> dos círculos construídos.
+                            <span id="intersection" class="checkmarker"> &check;</span> 
+                        </li>                         
+                        <li id="hidden3">Clique em 
+                            <img src="img/tool_segment2.png" title="Segmento"> 
+                            para traçar um 
+                            <b>segmento</b> do ponto A até o ponto 
+                            <span id="showPoint"></span> 
+                            <span id="segment1" class="checkmarker"> &check;</span> 
+                        </li>                         
+                        <li id="hidden4">Novamente, trace um 
+                            <b>segmento</b> do ponto B até o ponto 
+                            <span id="showPoint2"></span>.
+                            <span id="segment2" class="checkmarker"> &check;</span> 
+                        </li>                         
+                        <li id="hidden5">Por fim, com a ferramenta 
+                            <img src="img/tool_poligon2.png" title="Polígono"> 
+                            clique no ponto A, ponto B, ponto 
+                            <span id="showPoint3"></span> e novamente no ponto A 
+                            para construir um 
+                            <b>triângulo</b>.
+                            <span id="triangle" class="checkmarker"> &check;</span> 
+                        </li>                         
+                    </ol>                     
+                </div>                 
+                <div id="skiplevel" style="color:darkgrey"> 
+                    <p>Já conhece o Geogebra ou já fez esse tutorial antes? <br>Vá para o <a href="level1.html">nível 1</a>.</p> 
+                </div>                 
+                <div id="min_moves"> 
+                    <p>Número minímo de passos: 5 (Pontos não contam como passos)</p> 
+                </div>                 
+                <div id="button_bar"> 
+                    <script type="text/javascript">            
+                        $(document).ready(function(){
+                            $("#hint_button").click(function(){
+                                document.getElementById('feedback').innerHTML = "Selecione uma ferramenta e clique na janela do geogebra. Algumas ferramentas necessitam de múltiplos pontos para serem usadas.";
+                            });
+
+                            $("#resetbutton").click(function(){
+                                step = 0;
+                                $.ajax({
+                                    url:ggbApplet.reset(),
+                                    success:function(){
+                                        printConstructionState();
+                                        resetLevel();
+                                        document.getElementById('feedback').innerHTML = "atividade reiniciada.";
+                                    }
+                                })                                                
+                            });    
+                            $("#button_checkExercise").click(function(){
+                                checkExercise();
+                            });                        
+                        });                    
+                    </script>                     
+                    <button id="hint_button" class="myButton" title="Clique para receber uma dica">Dica</button>                     
+                    <button id="button_checkExercise" class="myButton" title="Clique verificar a construção">Verificar construção</button>                     
+                    <button id="resetbutton" class="myButton" title="Clique para reiniciar a janela do geogebra">Reiniciar</button>                     
+                </div>                 
+                <div id="textbox_hint"> 
+                    <span id="feedback" class="result_div">Clique para verificar sua construção.</span> 
+                </div>                 
+                <div id="textbox"> 
+                    <form name="listenerForm"> 
+                        <div style="text-align: left; width: inherit"> 
+                            <br>Tabela de objetos:
+                            <br> 
+                            <textarea style="resize:none; width: 75%" name="consState" rows="10"></textarea>                             
+                        </div>                         
+                    </form>                     
+                </div>                 
+            </div>             
+            <div id="sidebar"> 
+                <div class="applet"> 
+                    <script type="text/javascript">
+                        parameters.customToolBar = "0 | 501 | 5 | 15 | 18 | 10 | 16"; 
+                        //parameters.filename = "ggb/level1.ggb";   
+                        parameters.filename = "ggb/tutorial.ggb"; 
+                        //parameters.language = "pt";
+                        //parameters.country = "BR";
+                    </script>                     
+                    <div id="applet_container"></div>                     
+                </div>                 
+            </div>             
+            <div id="bottonbar"> 
+                <div id="valid_box" style="display: none"> 
+                    <br> 
+                    <p>Parabéns Você concluiu a construção. Agora volte para a janela do geogebra e observe o que acontece com a construção ao arrastar o <span style="color:cornflowerblue">ponto C</span> ao longo do segmento AB. 
+                        <br>Em seguida, complete a frase a seguir:</p> 
+                    <div id="validation_questions"></div>                     
+                    <div id="validation_button"> 
+                        <script>
+                            $(document).ready(function(){
+                                $("#checkValidation").click(function(){
+                                    checkValidation();
+                                });
+                            });                                                 
+                        </script>                         
+                        <button id="checkValidation" title="Clique para verificar a frase">Verificar</button>                         
+                        <div id="textbox_awnser"> 
+                            <span id="awnser" class="result_div">Clique para verificar seu argumento.</span> 
+                        </div>                         
+                    </div>                     
+                </div>                 
+            </div>             
+            <div class="container"> 
+                <div id="footer" class="foot-cp"> 
+                    <p> 2017 Fitrox Rox. Criado com <a href="http://www.geogebra.org/">GeoGebra</a>.</p> 
+                </div>                 
+            </div>             
+        </div>         
+    </body>     
+</html>

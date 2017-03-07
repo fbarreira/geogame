@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>GeoGame: carregando...</title>         
+        <meta charset="UTF-8" /> 
+        <meta name="description" content="Game about geometric constructions &amp; HTML template by @flamekaizar"> 
+        <meta name="author" content="Fitrox Rox"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1" /> 
+        
+        <link rel="stylesheet" href="css/test3/kube.min.css" /> 
+        <link rel="stylesheet" href="css/test3/font-awesome.min.css" /> 
+        <link rel="stylesheet" href="css/test3/custom.min.css" /> 
+        
+        <link rel="shortcut icon" href="favicon.ico" /> 
+        
+        <link href="http://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css"> 
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css"> 
+        
+        <script type="text/javascript" src="javascript/deployggb.js"></script>           
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>       
+        <script>
+            //localStorage.setItem('lastLevel','0');
+            console.log("lastLevel(local): " + localStorage.lastLevel);
+            //lastLevel = localStorage.lastLevel;
+            var lastLevel = localStorage.getItem('lastLevel');
+            loadLastLevel();
+            function loadLastLevel() {    
+                console.log("lastlevel: " + lastLevel);
+                if (typeof(localStorage.lastLevel) !== "undefined" && lastLevel != '0') {
+                    // Code for localStorage/sessionStorage.
+                    console.log("going to level...");
+                    document.write('<meta http-equiv="refresh" content="1; url=/game_test1/level'+lastLevel+'.html" />');
+                } else {
+                    // Sorry! No Web Storage support..
+                    console.log("going to tutorial...");
+                    localStorage.setItem('lastLevel','0');
+                    localStorage.setItem('lastChallenge','0');                    
+                    document.write('<meta http-equiv="refresh" content="1; url=/game_test1/tutorial.html" />'); 
+                }
+            }
+	</script>
+    </head>
+    <body> 
+        <!-- Navigation -->         
+        <div class="main-nav"> 
+            <div class="container"> 
+                <header class="group top-nav"> 
+                    <nav class="navbar logo-w navbar-left"> 
+                        <a class="logo" href="index.html">GeoGame</a> 
+                    </nav>                     
+                    <div class="navigation-toggle" data-tools="navigation-toggle" data-target="#navbar-1"> 
+                        <span class="logo">Geogame</span> 
+                    </div>                     
+                    <nav id="navbar-1" class="navbar item-nav navbar-right"> 
+                        <!--ul> 
+                            <li class="active">
+                                <a href="index.html">Início</a>
+                            </li>                             
+                            <li>
+                                <a href="redirect_test.html">Jogar</a>
+                            </li>                             
+                            <li>
+                                <a href="help.html">Ajuda</a>
+                            </li>                             
+                            <li>
+                                <a href="about.html">Sobre</a>
+                            </li>                                                  
+                        </ul-->                         
+                    </nav>                     
+                </header>                 
+            </div>             
+        </div>               
+        <!-- Content --> 
+        <div class="content"> 
+            <div class="container"> 
+                <!-- Post -->         
+                <div class="post"> 
+                    <!-- Heading -->             
+                    <h1>Carregando último nível jogado...</h1> 
+                    <hr> 
+                    <div class="in-content"> 
+                        <p> 
+                            Por favor aguarde.
+                        </p> 
+                    </div>             
+                </div>         
+                <!-- /post -->         
+            </div>     
+        </div> 
+        <footer> 
+            <div class="container"> 
+                <p class="text-centered foot-cp"> <a href="#">Fitrox Rox 2017</a> </p> 
+            </div>     
+        </footer>  
+    </body>
+</html> 
