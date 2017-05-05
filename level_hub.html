@@ -11,37 +11,68 @@
         <meta name="description" content="Game about geometric constructions &amp; HTML template by @flamekaizar"> 
         <meta name="author" content="Fitrox Rox"> 
         <meta name="viewport" content="width=device-width, initial-scale=1" /> 
+        
         <link rel="stylesheet" href="css/test3/kube.min.css" /> 
         <link rel="stylesheet" href="css/test3/font-awesome.min.css" /> 
         <link rel="stylesheet" href="css/test3/custom.min.css" /> 
+        <link rel="stylesheet" href="css/test3/custom.jquery-ui.css" /> 
+         
         <link rel="shortcut icon" href="favicon.ico" /> 
+        
         <link href="http://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css"> 
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css"> 
-        <!--script type="text/javascript" src="javascript/deployggb.js"></script-->         
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>      
+              
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        
+        <script type="text/javascript" src="javascript/levelhub_system.js"></script>  
+        
         <script>
             window.onload = function() {
+                //maxLevel = 20;
+                currentbutton = -1;
                 console.log("lastLevel(local): " + localStorage.lastLevel);
-                var lastLevel = localStorage.getItem('lastLevel');   
+                var lastLevel = localStorage.getItem('lastLevel'); 
+                moveList = JSON.parse(localStorage.getItem("moveList"));
                 console.log("lastChallenge(local): " + localStorage.lastChallenge);
-                var lastChallenge = localStorage.getItem('lastChallenge');                   
-                var strLevel = "<p><ul>";
-                strLevel += '<li><a href="tutorial.html">Tutorial</a></li>';
-                for(i=0;i<lastLevel;i++){
-                    level = i+1;
-                    strLevel += '<li><a href="level'+level+'.html">Level '+level+'</a></li>';   
+                //var lastChallenge = localStorage.getItem('lastChallenge');       
+                for(i=0; i<maxLevel; i++){
+                    if(i>lastLevel){
+                        document.getElementById("button"+i.toString()).disabled = true;
+                    }
                 }
-                strLevel += "</ul></p>"
-                document.getElementById('levelList').innerHTML = strLevel; 
-                var strChallenge = "<p><ul>";    
-                for(i=0;i<lastChallenge;i++){
-                    challenge = i+1;
-                    strChallenge += '<li><a href="challenge_test'+challenge+'.html">Desafio '+challenge+'</a></li>';   
-                } 
-                strChallenge += "</ul></p>"
-                document.getElementById('challengeList').innerHTML = strChallenge;                
             };
-        </script>        
+        </script> 
+        <script>
+            $( function() {
+                $( "#menu" ).menu({
+                    items: "> :not(.ui-widget-header)"
+                });
+            } );
+        </script>  
+                        
+        <style>
+            //Menu Style
+            .ui-menu { width: 200px; }
+            .ui-widget-header { padding: 0.2em; }
+            .myButton { width: 100%}
+            .buttonbox { padding: 1px!important } 
+            #playButton{ font-size:15px; padding: 6px 24px;}
+            #main 
+            {
+                border: 1px solid darkgreen;
+                height: 500px;
+                overflow: auto;
+            }
+            #sidebar{height: 500px}
+            img
+            {    
+                border-style: groove;
+                border-width: 3px;
+                border-color: grey;
+            }
+        </style>     
+
     </head>     
     <body> 
         <!-- Navigation -->         
@@ -76,7 +107,7 @@
                 </header>                 
             </div>             
         </div>         
-        <!-- Content -->         
+        <!-- Content -->     
         <div class="content"> 
             <div class="container"> 
                 <!-- Post -->                 
@@ -85,19 +116,83 @@
                     <h1>Portal de Níveis</h1> 
                     <hr> 
                     <div class="in-content"> 
-                        <p>Selecione um dos níveis disponiveis para jogá-los novamente.</p> 
-                        <div id="levelList"> </div>
-                        <div id="challengeList"> </div>
-                    </div>                     
+                         <p>Selecione um dos níveis disponíveis para jogá-lo.</p> 
+                        <div id="main" style="width:45%;">
+                            <script>
+                                $(document).ready(function(){
+                                    $("#menu .myButton").click(function(){
+                                        document.getElementById("playButton").disabled = false;
+                                        currentbutton = this.value;
+                                        console.log("button clicked: " + currentbutton);
+                                        returnLevelInfo(currentbutton,moveList[currentbutton]);
+                                    });
+                                });                                                 
+                            </script>   
+                            <div id="wrap">
+                            <ul id="menu">
+                                <li class="ui-widget-header"><div>Tutorial</div></li>
+                                <li><div class="buttonbox"><button id="button0" class="myButton" value="0">Tutorial</button></div></li>                               
+                                <li class="ui-widget-header"><div>Categoria  1</div></li>
+                                <li><div class="buttonbox"><button id="button1" class="myButton" value="1">Nível 1</button></div></li>
+                                <li><div class="buttonbox"><button id="button2" class="myButton" value="2">Nível 2</button></div></li>
+                                <li><div class="buttonbox"><button id="button3" class="myButton" value="3">Nível 3</button></div></li>
+                                <li class="ui-widget-header"><div>Categoria 2</div></li>
+                                <li><div class="buttonbox"><button id="button4" class="myButton" value="4">Nível 4</button></div></li>
+                                <li><div class="buttonbox"><button id="button5" class="myButton" value="5">Nível 5</button></div></li>
+                                <li><div class="buttonbox"><button id="button6" class="myButton" value="6">Nível 6</button></div></li>
+                                <li class="ui-widget-header"><div>Categoria 3</div></li>
+                                <li><div class="buttonbox"><button id="button7" class="myButton" value="7">Nível 7</button></div></li>
+                                <li><div class="buttonbox"><button id="button8" class="myButton" value="8">Nível 8</button></div></li>
+                                <li><div class="buttonbox"><button id="button9" class="myButton" value="9">Nível 9</button></div></li>   
+                                <li><div class="buttonbox"><button id="button10" class="myButton" value="10">Nível 10</button></div></li>   
+                                <li class="ui-widget-header"><div>Categoria 4</div></li>
+                                <li><div class="buttonbox"><button id="button11" class="myButton" value="11" title="Nível 11" >Nível 11</button></div></li>
+                                <li><div class="buttonbox"><button id="button12" class="myButton" value="12" title="Nível 12" >Nível 12</button></div></li>
+                                <li><div class="buttonbox"><button id="button13" class="myButton" value="13" title="Nível 13" >Nível 13</button></div></li>   
+                                <li><div class="buttonbox"><button id="button14" class="myButton" value="14" title="Nível 14" >Nível 14</button></div></li>       
+                                <li><div class="buttonbox"><button id="button15" class="myButton" value="15" title="Nível 15" >Nível 15</button></div></li>      
+                                <li><div class="buttonbox"><button id="button16" class="myButton" value="16" title="Nível 16" >Nível 16</button></div></li>    
+                                <li class="ui-widget-header"><div>Categoria 5</div></li>
+                                <li><div class="buttonbox"><button id="button17" class="myButton" value="17" title="Nível 17" >Nível 17</button></div></li>
+                                <li><div class="buttonbox"><button id="button18" class="myButton" value="18" title="Nível 18" >Nível 18</button></div></li>
+                                <li><div class="buttonbox"><button id="button19" class="myButton" value="19" title="Nível 19" >Nível 19</button></div></li>                                
+                            </ul> 
+                            </div>
+                        </div>
+                         <div id="sidebar" style="width:70%;">
+                            <h4 style="text-align:center">Informações do jogo</h4> 
+                            <div id="level"><p>
+                                <b>Categoria:           </b><span id="level_title"></span>  <br>
+                                <b>Nível:               </b><span id="stage_title"></span>  <br>
+                                <b>Objetivo:            </b><span id="obj"></span>          <br>
+                                <b>Passos suficientes:  </b><span id="min_moves"></span>    <br>
+                                <b>Passos usados:       </b><span id="moves"></span>        <br>
+                                <b>Progresso:           </b><span id="status"></span> 
+                            </p></div>
+                            <div id="level_image" ><img src="img/level0b.png" alt=""></div>
+                            <script>
+                                $(document).ready(function(){
+                                    $("#playButton").click(function(){
+                                        if(currentbutton == 0){
+                                            window.open('tutorial.html', '_self');
+                                        }
+                                        else{
+                                            page = 'level'+currentbutton+'.html';
+                                            window.open(page, '_self');
+                                        }
+                                    });
+                                });                                 
+                            </script>
+                            <div id="playButtonDiv"><button id="playButton" class="myButton" disabled>Play</button></div>
+                        </div>   
+                    </div>    
                 </div>                 
                 <!-- /post -->                 
-            </div>             
-        </div>         
+            </div>  
+        </div>      
         <!-- Footer -->         
-        <footer> 
-            <div class="container"> 
-                <p class="text-centered foot-cp"> <a href="#">Fitrox Rox 2017</a> </p> 
-            </div>             
-        </footer>         
+                <div id="footer" class="foot-cp"> 
+                    <p class="text-centered foot-cp"> <a href="#">Fitrox Rox 2017</a> </p> 
+                </div>       
     </body>     
 </html> 

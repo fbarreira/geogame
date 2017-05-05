@@ -14,15 +14,24 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" /> 
         
         <link rel="stylesheet" type="text/css" href="css/test3/styles_tutorial.css"> 
+        <link rel="stylesheet" href="css/test3/custom.jquery-ui.css" /> 
         
         <link rel="shortcut icon" href="favicon.ico" />     
+                     
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         
-        <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"></script>         
         <script type="text/javascript" src="javascript/deployggb_original.js"></script>         
-        <script type="text/javascript" src="javascript/ggbapplet_parameters.js"></script>         
+        <script type="text/javascript" src="javascript/ggbapplet_parameters.js"></script> 
         
         <script type="text/javascript" src="javascript/system_base.js"></script>         
-        <script type="text/javascript" src="javascript/system_tutorial.js"></script>      
+        <script type="text/javascript" src="javascript/system_tutorial.js"></script>    
+        
+        <script>
+            $( function() {
+                $( "#dialog" ).dialog();
+            } );
+        </script>
     </head>     
     <body> 
         <script>
@@ -45,7 +54,13 @@
                 }
               }
             }
-        </script>         
+        </script>    
+                
+        <div id="dialog" title="Bem Vindo!">
+            <p>Já conhece o Geogebra ou já fez esse tutorial antes? <br>Vá para o <a href="level1.html">nível 1</a>.</p> 
+        </div>
+        
+        
         <div class="main-nav"> 
             <div class="container"> 
                 <header class="group top-nav"> 
@@ -129,10 +144,7 @@
                             <span id="triangle" class="checkmarker"> &check;</span> 
                         </li>                         
                     </ol>                     
-                </div>                 
-                <div id="skiplevel" style="color:darkgrey"> 
-                    <p>Já conhece o Geogebra ou já fez esse tutorial antes? <br>Vá para o <a href="level1.html">nível 1</a>.</p> 
-                </div>                 
+                </div>                             
                 <div id="min_moves"> 
                     <p>Número minímo de passos: 5 (Pontos não contam como passos)</p> 
                 </div>                 
@@ -202,7 +214,7 @@
                                 });
                             });                                                 
                         </script>                         
-                        <button id="checkValidation" title="Clique para verificar a frase">Verificar</button>                         
+                        <button id="checkValidation" class="myButton" title="Clique para verificar a frase">Verificar</button>                         
                         <div id="textbox_awnser"> 
                             <span id="awnser" class="result_div">Clique para verificar seu argumento.</span> 
                         </div>                         
