@@ -4,6 +4,7 @@
  */
 
 var level = 0;
+var mincount = 5;
 var step = 0;  
 var objType = "";
 var target = false;

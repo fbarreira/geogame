@@ -390,7 +390,7 @@ function checkpointontarget(obj,target,x,y) {
         if (finished.indexOf("true") > -1) {
             Command('f_p'+target+'= Text["", (0,0)]');
             if (typeof x !== 'undefined'){
-                Command("W = "+getCoord(obj)+"+("+x+","+y+")")};	
+                Command("W = "+getCoord(obj)+"+("+x+","+y+")");};	
             ggbApplet.setVisible("welldone",true);		 
         }
     }
@@ -445,6 +445,14 @@ function checktarget(obj,type,target,container,x,y){
 function setNextLevel(level){
     var nextLevel = level + 1;
     console.log("next level: " + nextLevel);
+    var count = ggbApplet.getValue("countnumber");
+    var moveList = JSON.parse(localStorage.getItem("moveList"));
+    console.log("moves: " + count + " - movelist["+level+"]: " + moveList[level]);
+    if(count < moveList[level] || moveList[level] == 0){
+        console.log("check!");
+        moveList[level] = count;
+        localStorage.setItem("moveList", JSON.stringify(moveList));
+    }
     
     if (localStorage.lastLevel < nextLevel.toString()) {
         localStorage.setItem("lastLevel", nextLevel.toString());
@@ -474,6 +482,7 @@ function LevelCompleted(){
         Command('Complete = Text["Nível Completo!",  '+abspos("0.40","-0.032915")+']');   
         $( "#valid_box" ).toggle();
         window.scrollTo(0,document.body.scrollHeight); 
+        document.getElementById("resetbutton").disabled = true;
 }   
 
 
