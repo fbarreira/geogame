@@ -353,7 +353,7 @@ a
 {
     border: 1px solid;
     padding: 2px;
-    border-color: darkgrey;
+    border-color: darkgreen;
     background: #FFF;
     text-align: left;
     max-width: 90%;
@@ -364,11 +364,28 @@ a
 {
     border: 1px solid;
     padding: 2px;
-    border-color: darkgrey;
+    border-color: darkgreen;
     background: #FFF;
+    margin-top: 5px;
     text-align: left;
     //max-width: 40%;
     width: auto;
+    font-size: 1em;
+    line-height: 1.5em;    
+}
+
+#textbox_awnser a{
+    //text-decoration: none;
+    color: limegreen;
+}
+
+#textbox_awnser a:visited{
+    color: seagreen;
+}
+
+textarea {
+    overflow: auto;
+    border-color: darkgreen;
 }
 
 #level_title h1
@@ -406,7 +423,7 @@ a
 	text-shadow:0px 1px 0px #ffffff;
 }
 
-.myButton:hover {
+.myButton:hover:enabled {
 	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #e9e9e9), color-stop(1, #f9f9f9));
 	background:-moz-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
 	background:-webkit-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
@@ -422,6 +439,11 @@ a
 {
     position: relative;
     top: 1px;
+}
+
+.myButton:disabled
+{
+    color:darkgrey;
 }
 
 #ggb_preview
@@ -519,12 +541,4 @@ li.dropdown
     z-index: 1000001;
 }
 
-#skiplevel a, #textbox_awnser a{
-    //text-decoration: none;
-    color: limegreen;
-}
 
-#skiplevel a:visited, #textbox_awnser a:visited{
-    //text-decoration: none;
-    color: green;
-}
