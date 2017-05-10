@@ -13,42 +13,33 @@ var circleL = "null";
 var circleR = "null";
 var pointTop = "null";
 var pointBotton = "null";
-var segmentRT = "null";
-var segmentLT = "null";   
-var segmentRB = "null";
-var segmentLB = "null";   
+var midpoint = "null";
+var bisectorSeg = "null";
+var bisectorLine = "null";
 var index = 0;
 
 //Shows question for validation
 function showValidation(){
-    var strValidation = "<p>";
-    strValidation += createOrderList(3);
-    strValidation += " | Ambos ";
-    strValidation += createObjList(1);
-    strValidation += " e ";
-    strValidation += createObjList(2);
-    strValidation += " possuem o mesmo raio.</p>";
-    //strValidation += '<div><button id="checkValidation">Verificar justificativa</button>'; 
-    //strValidation += '<span id="awnserbox" class="result_div">Clique para verificar seu argumento.</span></div>';
+    var strValidation = "<p><ol>"
+    strValidation += "<li>Ambos " + createObjList(1) + " e " + createObjList(2) + " possuem o mesmo raio (segmento AB).</li>";
+    strValidation += "<li>Como " + intPoint + " pertence à intersecção entre os círculos, então " + createObjList(3) + " e " + createObjList(4) + " são congruentes.</li> à AB";
+    strValidation += "<li>Logo, o triângulo AB"+intPoint+" é equilátero (possui os lados iguais).</li>";
+    strValidation += "</ol></p>";
     //console.log("\\"+strValidation);
-    document.getElementById('validation_questions').innerHTML = strValidation;
-    //$( "#validation+questions" ).toggle();    
-    //$( "#validation_button" ).toggle();  
-    $( "#valid_box" ).toggle();  
-    window.scrollTo(0,document.body.scrollHeight);    
+    document.getElementById('validation_questions').innerHTML = strValidation;   
 }
 
 //this function checks the steps of the level
 function checkStep(){
-    if ((drawn("pointtop") || drawn("pointbottom")) && step < 1) {  
+    if ((drawn("pointtop") && drawn("pointbottom")) && step < 1) {  
         Command('progresso = 33');
         step = 1;
     }
-    if ((drawn("segmentLT") || drawn("segmentLB") || drawn("segmentRB") ||  drawn("segmentRT")) && step < 2){
+    if ((drawn("bisectorSeg") || drawn("bisectorLine")) && step < 2) {  
         Command('progresso = 66');
-        step = 2;
-    }      
-    if(((drawn("segmentLT") && drawn("segmentRT")) || (drawn("segmentLB") && drawn("segmentRB"))) && step < 3){
+        step = 1;
+    }    
+    if((drawn("midpoint")) && step < 3){
         step = 3;
         $.ajax({
             url:LevelCompleted(),
@@ -92,22 +83,17 @@ function newObjectListener(obj){
             case "point":
                 pointTop = checktarget(obj,"point","pointtop",pointTop,-0.4,0.3);
                 pointBotton = checktarget(obj,"point","pointbottom",pointBotton,-0.4,-0.3);
+                midpoint = checktarget(obj,"point","midpoint",midpoint,-0.4,-0.3);
                 break;
             case "segment":    
-                segmentLT = checktarget(obj,"segment","segmentLT",segmentLT,-1.1,0);
-                segmentRT = checktarget(obj,"segment","segmentRT",segmentRT,0,0);
-                segmentLB = checktarget(obj,"segment","segmentLB",segmentLB,-1.1,0);
-                segmentRB = checktarget(obj,"segment","segmentRB",segmentRB,0,0);                
+                bisectorSeg = checktarget(obj,"segment","bisectorSeg",bisectorSeg,-1.1,0);             
                 break;
             case "circle":
                 circleL = checktarget(obj,"circle","circleleft",circleL,0,0);
                 circleR = checktarget(obj,"circle","circleright",circleR,0,0);                
                 break;
-            case "ray":
-                checkwrongsegment(obj,"rayLB",-1.1,0);
-                checkwrongsegment(obj,"rayRB",0,0);
-                checkwrongsegment(obj,"rayLT",-1.1,0);
-                checkwrongsegment(obj,"rayRT",0,0);                  
+            case "line":
+                bisectorLine = checktarget(obj,"line","bisectorLine",bisectorLine,-1.1,0);
                 break;
         }
                                       
@@ -123,76 +109,7 @@ function newObjectListener(obj){
 
 //this function checks each step for the hint
 function checkExercise(){ 
-    if(target){
-        if (drawn("triangletop") || drawn("trianglebottom")) {  
-            console.log("Wataboy!");
-        }                                            
-        else{
-            step = 4;
-        }
-    }
-    else{
-        switch(objType){
-            case "point":
-                if (drawn("pointtop") || drawn("pointbottom")) {  
-                    //Command('progresso = 33');
-                    step = 1;
-                }            
-                else{
-                    //step = 0.5;
-                }
-                break;
-            case "circle":
-                //step = 0;
-                break;
-            case "segment":
-                if (drawn("segmentLT") || drawn("segmentLB") || drawn("segmentRB") ||  drawn("segmentRT")){
-                    //Command('progresso = 66');
-                    step = 2;
-                }      
-                else{
-                    //step = 5;
-                }
-                break;
-            case "ray":
-                if (drawn("rayLT") || drawn("rayLB") || drawn("rayRB") ||  drawn("rayRT")){
-                    step = 1.7;
-                }                                                            
-                break; 
-            default:
-                //step = 0;
-
-        }                                                    
-    }
-    switch(step){
-        case 0: //initial state - nothing build
-            document.getElementById('feedback').innerHTML = "Procure construir novos pontos relacionados com ambos A e B.";
-            break;
-        case 0.5: //wrong point
-            document.getElementById('feedback').innerHTML = "Este ponto não é dependente de A nem B.";
-            break;                                                        
-        case 1: //intersect point
-            document.getElementById('feedback').innerHTML = "O que é possível de construir com 2 pontos?";
-            break;
-        case 1.5: //wrong segment
-            document.getElementById('feedback').innerHTML = " null ";
-            break; 
-        case 1.7: //ray build
-            document.getElementById('feedback').innerHTML = "Tente construir um segmento no lugar da semirreta.";
-            break;                         
-        case 2: //right segment build
-            document.getElementById('feedback').innerHTML = "Existe outro segmento de medida igual a este?";
-            break;
-        case 3: //finished construction
-            document.getElementById('feedback').innerHTML = "Parabéns, este é um triângulo equilátero.";
-            break;
-        case 4: //wrong triangle
-            document.getElementById('feedback').innerHTML = "Este não é um triângulo de lados iguais.";
-            break;                                                     
-        default: 
-            document.getElementById('feedback').innerHTML = " default ";
-            break;
-    }
+   
 }
 
 //check if validation awnser is correct
@@ -208,7 +125,7 @@ function checkValidation(){
         console.log("Your choice is: "+strtext1+" and "+strtext2+".");
         //document.getElementById('feedback').innerHTML = "Your choice is "+strtext;
         //$( "#answer" ).toggle();    
-        if((strvalue1 == circleL && strvalue2 == circleR) || (strvalue2 == circleL && strvalue1 == circleR)){
+        /*if((strvalue1 == circleL && strvalue2 == circleR) || (strvalue2 == circleL && strvalue1 == circleR)){
             setNextLevel(level);
             var strWin = "Parabéns. Você concluiu o nível 1! Vá para o <a href='level2.html'>Nível 2</a><br>";
             if (count === mincount){
@@ -221,7 +138,7 @@ function checkValidation(){
         }
         else{
             document.getElementById('awnser').innerHTML = "Observe os segmentos constrúidos e sua relação com o segmento AB.";
-        }
+        }*/
     }
     else{
         alert('Please select a object from all the drop down lists.');
@@ -238,10 +155,9 @@ function resetLevel(){
     circleR = "null";
     pointTop = "null";
     pointBotton = "null";
-    segmentRT = "null";
-    segmentLT = "null";   
-    segmentRB = "null";
-    segmentLB = "null";  
+    midpoint = "null";
+    bisectorSeg = "null";
+    bisectorLine = "null";    
     document.getElementById('validation').innerHTML = "";    
 }
   
