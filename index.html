@@ -42,21 +42,12 @@
                     </div>                     
                     <nav id="navbar-1" class="navbar item-nav navbar-right"> 
                         <ul> 
-                            <li class="active">
-                                <a href="index.html">Início</a>
-                            </li>                             
-                            <li>
-                                <a href="redirect_test.html">Jogar</a>
-                            </li>
-                            <li>
-                                <a href="level_hub.html">Níveis</a>
-                            </li>                                
-                            <li>
-                                <a href="help.html">Ajuda</a>
-                            </li>                             
-                            <li>
-                                <a href="about.html">Sobre</a>
-                            </li>                                                  
+                            <li class="active"><a href="index.html">Início</a></li>                             
+                            <li><a href="redirect_test.html">Jogar</a></li>
+                            <li><a href="level_hub.html">Níveis</a></li>   
+                            <li><a href="rules.html">Regras</a></li>                             
+                            <li><a href="help.html">Ajuda</a></li>                             
+                            <li><a href="about.html">Sobre</a></li>                                                  
                         </ul>                         
                     </nav>                     
                 </header>                 
@@ -75,10 +66,7 @@
                             <script>
                                 $(document).ready(function(){
                                     $("#resetCache").click(function(){
-                                        var moveList = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-                                        localStorage.setItem("moveList", JSON.stringify(moveList));
-                                        localStorage.setItem('lastLevel','0');
-                                        localStorage.setItem('lastChallenge','0');     
+                                        localStorage.clear();
                                         console.log("cache cleared successfully!");
                                     });
                                 });                                                 

@@ -33,9 +33,11 @@
                 status;
                 currentbutton = -1;
                 console.log("lastLevel(local): " + localStorage.lastLevel);
-                var lastLevel = localStorage.getItem('lastLevel'); 
+                //var lastLevel = localStorage.getItem('lastLevel'); 
+                var lastLevel = 7;
                 var lastChallenge = localStorage.getItem('lastChallenge'); 
                 moveList = JSON.parse(localStorage.getItem("moveList"));
+                primitiveList = JSON.parse(localStorage.getItem("primitiveList"));
                 console.log("lastChallenge(local): " + localStorage.lastChallenge);
                 //var lastChallenge = localStorage.getItem('lastChallenge');       
                 for(i=0; i<maxLevel; i++){
@@ -80,9 +82,10 @@
             #sidebar{height: 500px}
             img
             {    
-                border-style: groove;
+                border-style: inset;
+                background-color: #F5FFF5;
                 border-width: 3px;
-                border-color: grey;
+                border-color: darkgreen;
             }
         </style>     
 
@@ -101,11 +104,12 @@
                     <nav id="navbar-1" class="navbar item-nav navbar-right"> 
                         <ul> 
                             <li><a href="index.html">Início</a></li>                             
-                            <li><a href="redirect_test.html">Jogar</a></li>                             
-                            <li class="active"><a href="level_hub.html">Níveis</a></li>                             
+                            <li><a href="redirect_test.html">Jogar</a></li>
+                            <li  class="active"><a href="level_hub.html">Níveis</a></li>   
+                            <li><a href="rules.html">Regras</a></li>                             
                             <li><a href="help.html">Ajuda</a></li>                             
-                            <li><a href="about.html">Sobre</a></li>                             
-                        </ul>                         
+                            <li><a href="about.html">Sobre</a></li>                                                  
+                        </ul>                       
                     </nav>                     
                 </header>                 
             </div>             
@@ -119,7 +123,7 @@
                     <h1>Portal de Níveis</h1> 
                     <hr> 
                     <div class="in-content"> 
-                         <p>Selecione um dos níveis disponíveis para jogá-lo.</p> 
+                        <p>Selecione um dos níveis disponíveis para jogá-lo.</p> 
                         <div id="main" style="width:45%;">
                             <script>
                                 $(document).ready(function(){
@@ -128,7 +132,7 @@
                                         document.getElementById("playButton").disabled = false;
                                         currentbutton = this.value;
                                         console.log("button clicked: " + currentbutton);
-                                        returnLevelInfo(currentbutton,moveList[currentbutton]);
+                                        returnLevelInfo(currentbutton,moveList[currentbutton],primitiveList[currentbutton]);
                                     });
                                 });   
                                 
@@ -138,7 +142,7 @@
                                         document.getElementById("playButton").disabled = false;
                                         currentbutton = this.value;
                                         console.log("button clicked: " + currentbutton);
-                                        returnLevelInfo(currentbutton,moveList[currentbutton]);
+                                        returnLevelInfo(currentbutton,moveList[currentbutton],primitiveList[currentbutton]);
                                     });
                                 });                                    
                             </script>   
@@ -152,28 +156,27 @@
                                         <ul id="menuLevel" class="menu">
                                             <li class="ui-widget-header"><div>Tutorial</div></li>
                                             <li><div class="buttonbox"><button id="bl0" class="myButton" value="0">Tutorial</button></div></li>                               
-                                            <li class="ui-widget-header"><div>Categoria  1</div></li>
+                                            <li class="ui-widget-header"><div>Construções Elementares</div></li>
                                             <li><div class="buttonbox"><button id="bl1" class="myButton" value="1">Nível 1</button></div></li>
                                             <li><div class="buttonbox"><button id="bl2" class="myButton" value="2">Nível 2</button></div></li>
                                             <li><div class="buttonbox"><button id="bl3" class="myButton" value="3">Nível 3</button></div></li>
-                                            <li class="ui-widget-header"><div>Categoria 2</div></li>
                                             <li><div class="buttonbox"><button id="bl4" class="myButton" value="4">Nível 4</button></div></li>
                                             <li><div class="buttonbox"><button id="bl5" class="myButton" value="5">Nível 5</button></div></li>
                                             <li><div class="buttonbox"><button id="bl6" class="myButton" value="6">Nível 6</button></div></li>
-                                            <li class="ui-widget-header"><div>Categoria 3</div></li>
                                             <li><div class="buttonbox"><button id="bl7" class="myButton" value="7">Nível 7</button></div></li>
+                                            <li class="ui-widget-header"><div>Transporte de segmentos</div></li>                                            
                                             <li><div class="buttonbox"><button id="bl8" class="myButton" value="8">Nível 8</button></div></li>
                                             <li><div class="buttonbox"><button id="bl9" class="myButton" value="9">Nível 9</button></div></li>   
                                             <li><div class="buttonbox"><button id="bl10" class="myButton" value="10">Nível 10</button></div></li>
                                             <li><div class="buttonbox"><button id="bl11" class="myButton" value="11">Nível 11</button></div></li>                                
-                                            <li class="ui-widget-header"><div>Categoria 4</div></li>
                                             <li><div class="buttonbox"><button id="bl12" class="myButton" value="12">Nível 12</button></div></li>
+                                            <li class="ui-widget-header"><div>Categoria 3</div></li>                      
                                             <li><div class="buttonbox"><button id="bl13" class="myButton" value="13">Nível 13</button></div></li>   
                                             <li><div class="buttonbox"><button id="bl14" class="myButton" value="14">Nível 14</button></div></li>       
                                             <li><div class="buttonbox"><button id="bl15" class="myButton" value="15">Nível 15</button></div></li>      
                                             <li><div class="buttonbox"><button id="bl16" class="myButton" value="16">Nível 16</button></div></li>   
                                             <li><div class="buttonbox"><button id="bl17" class="myButton" value="17">Nível 17</button></div></li>                                
-                                            <li class="ui-widget-header"><div>Categoria 5</div></li>
+                                            <li class="ui-widget-header"><div>Categoria 4</div></li>
                                             <li><div class="buttonbox"><button id="bl18" class="myButton" value="18">Nível 18</button></div></li>
                                             <li><div class="buttonbox"><button id="bl19" class="myButton" value="19">Nível 19</button></div></li>                                
                                         </ul>
@@ -211,6 +214,7 @@
                                 <b>Objetivo:            </b><span id="obj"></span>          <br>
                                 <b>Passos suficientes:  </b><span id="min_moves"></span>    <br>
                                 <b>Passos usados:       </b><span id="moves"></span>        <br>
+                                <b>Ferramentas básicas: </b><span id="primitives"></span>   <br>
                                 <b>Progresso:           </b><span id="status"></span> 
                             </p></div>
                             <div id="level_image" ><img src="img/level0b.png" alt=""></div>
@@ -233,7 +237,7 @@
                                     });
                                 });                                 
                             </script>
-                            <div id="playButtonDiv"><button id="playButton" class="myButton" disabled>Play</button></div>
+                            <div id="playButtonDiv"><button id="playButton" class="myButton" disabled>Jogar</button></div>
                         </div>   
                     </div>    
                 </div>                 
