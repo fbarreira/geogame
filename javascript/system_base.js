@@ -213,6 +213,11 @@ function objectCheckout(obj){
         }        
     }
     
+function isPrimitive(objType){
+    if(!(objType == 'point' || objType =='segment' || objType == 'ray' || objType == 'circle') && primitives){
+        primitives = false;
+    }
+}
     
 //    if (cmdString.substring(0,3) == "Ray" || (cmdString.substring(0,2) == "Eq" && ggbApplet.getObjectType(obj)=="point") || cmdString.substring(0,3) == "Seg" ||cmdString.substring(0,3) == "Cír" || cmdString.substring(0,3) == "Mid" || cmdString.substring(0,13) == "AngleBisector" || cmdString.substring(0,4) == "Perp" || cmdString.substring(0,4) == "Line" || (cmdString.substring(0,5) == "Trans" && ggbApplet.getObjectType(obj)=="point")){
 //        //Command('countnumber = countnumber + 1');
@@ -447,6 +452,7 @@ function setNextLevel(level){
     console.log("next level: " + nextLevel);
     var count = ggbApplet.getValue("countnumber");
     var moveList = JSON.parse(localStorage.getItem("moveList"));
+    var primitiveList = JSON.parse(localStorage.getItem("primitiveList"));
     console.log("moves: " + count + " - movelist["+level+"]: " + moveList[level]);
     if(count < moveList[level] || moveList[level] == 0){
         console.log("check!");
@@ -460,6 +466,11 @@ function setNextLevel(level){
     } else {
         console.log("lastlevel (fix): " + localStorage.lastLevel);
     }    
+    
+    if(primitiveList[level] == false && primitives){
+        primitiveList[level] = primitives;
+        localStorage.setItem("primitiveList", JSON.stringify(primitiveList));
+    }
 }
 
 //Stores next challenge
@@ -553,6 +564,7 @@ function displayResult(condition,level,mincount,strHelp,challenge){
         var strWin = "Parabéns. Você concluiu o nível "+level+"! Vá para o <a href='level"+nextLevel+".html'>Nível "+nextLevel+"</a>";
         if (count === mincount){
             strWin += "<br>Você realizou a construção com o menor número de passos possíveis!";
+            
         }     
         if(!tip){
             strWin += "<br>Você realizou a construção sem a dica.";
