@@ -16,8 +16,8 @@ function loadLastLevel() {
     if (typeof(localStorage.lastLevel) !== "undefined" && lastLevel != '0') {
         // Code for localStorage/sessionStorage.
         console.log("going to level...");
-        document.write('<meta http-equiv="refresh" content="1; url=/game_test1/level'+lastLevel+'.html" />');
-        //document.write('<meta http-equiv="refresh" content="1; url=/geogame/level'+lastLevel+'.html" />');
+        //document.write('<meta http-equiv="refresh" content="1; url=/game_test1/level'+lastLevel+'.html" />');
+        document.write('<meta http-equiv="refresh" content="1; url=/geogame/level'+lastLevel+'.html" />');
     } else {
         // Sorry! No Web Storage support..
         var levelList = createarray(maxLevel, 0);
@@ -27,8 +27,8 @@ function loadLastLevel() {
         console.log("going to tutorial...");
         localStorage.setItem('lastLevel','0');
         localStorage.setItem('lastChallenge','0');                    
-        document.write('<meta http-equiv="refresh" content="1; url=/game_test1/tutorial.html" />'); 
-        //document.write('<meta http-equiv="refresh" content="1; url=/geogame/tutorial.html" />'); 
+        //document.write('<meta http-equiv="refresh" content="1; url=/game_test1/tutorial.html" />'); 
+        document.write('<meta http-equiv="refresh" content="1; url=/geogame/tutorial.html" />'); 
     }
 }
 
