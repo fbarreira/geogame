@@ -29,9 +29,6 @@
         
         <script>
             window.onload = function() {
-                //maxLevel = 20;
-                status;
-                currentbutton = -1;
                 console.log("lastLevel(local): " + localStorage.lastLevel);
                 var lastLevel = localStorage.getItem('lastLevel'); 
                 //var lastLevel = 7;
@@ -39,7 +36,8 @@
                 moveList = JSON.parse(localStorage.getItem("moveList"));
                 primitiveList = JSON.parse(localStorage.getItem("primitiveList"));
                 console.log("lastChallenge(local): " + localStorage.lastChallenge);
-                //var lastChallenge = localStorage.getItem('lastChallenge');       
+                //var lastChallenge = localStorage.getItem('lastChallenge');   
+                        
                 for(i=0; i<maxLevel; i++){
                     if(i>lastLevel){
                         document.getElementById("bl"+i.toString()).disabled = true;
@@ -49,7 +47,11 @@
                     if(i>lastChallenge){
                         document.getElementById("bc"+i.toString()).disabled = true;
                     }
-                }                
+                }      
+                
+                if ((typeof(localStorage.lastLevel) == "undefined" && lastLevel != '0')) {
+                    document.getElementById("bl0").disabled = true;
+                }
             };
         </script> 
         
@@ -137,8 +139,8 @@
                                 });   
                                 
                                 $(document).ready(function(){
-                                    status = "challenge";
                                     $("#menuChallenge .myButton").click(function(){
+                                        status = "challenge";
                                         document.getElementById("playButton").disabled = false;
                                         currentbutton = this.value;
                                         console.log("button clicked: " + currentbutton);
