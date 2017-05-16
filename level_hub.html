@@ -30,13 +30,23 @@
         <script>
             window.onload = function() {
                 console.log("lastLevel(local): " + localStorage.lastLevel);
-                var lastLevel = localStorage.getItem('lastLevel'); 
+                var lastLevel = JSON.parse(localStorage.getItem('lastLevel')); 
                 //var lastLevel = 7;
                 var lastChallenge = localStorage.getItem('lastChallenge'); 
                 moveList = JSON.parse(localStorage.getItem("moveList"));
                 primitiveList = JSON.parse(localStorage.getItem("primitiveList"));
+                tipList = JSON.parse(localStorage.getItem("tipList"));
+                statusList = JSON.parse(localStorage.getItem("statusList"));
+                goldList = JSON.parse(localStorage.getItem("goldList"));
+                toolList = JSON.parse(localStorage.getItem("toolList"));
                 console.log("lastChallenge(local): " + localStorage.lastChallenge);
                 //var lastChallenge = localStorage.getItem('lastChallenge');   
+                //type;
+                
+                if(lastLevel){
+                    returnProgress(lastLevel, lastChallenge, statusList, goldList, toolList);
+                    returnGameProgress(statusList);
+                }
                         
                 for(i=0; i<maxLevel; i++){
                     if(i>lastLevel){
@@ -65,29 +75,83 @@
                     items: "> :not(.ui-widget-header)"
                 });
             });
+           
+            //var totalProgression = 50;
+           
+            $( function() {
+                var progressbar = $( "#progressbar" ),
+                progressLabel = $( ".progress-label" );
+
+                progressbar.progressbar({
+                    value: false,
+                    change: function() {
+                        progressLabel.text( progressbar.progressbar( "value" ) + "%" );
+                    },
+                    complete: function() {
+                        progressLabel.text( "100%" );
+                    }
+                });
+
+                function progress() {
+                    var val = gameprogress;
+
+                    progressbar.progressbar( "value", val );
+
+                    if ( val < 99 ) {
+                    setTimeout( progress, 1 );
+                    }
+                }
+                setTimeout( progress, 500 );
+            });
         </script>  
                         
         <style>
             //Menu Style
-            .ui-menu { width: 200px; }
-            .ui-widget-header { padding: 0.2em; }
+            #tabs .ui-menu { width: 200px; }
+            #tabs .ui-widget-header { padding: 0.2em; }
             .myButton { width: 100%}
-            .buttonbox { padding: 1px!important ;background-color:#d5f9e6} 
-            #playButton{ font-size:15px; padding: 6px 24px;}
-            #tabs-1,#tabs-2{padding:1px}
+            .buttonbox { padding: 1px!important ;background-color:lightgrey} 
+            .span{color:black}
+            #tabs-1,#tabs-2{padding:1px; background-color:darkgreen}
             #main 
             {
                 border: 1px solid darkgreen;
-                height: 500px;
+                height: 750px;
                 overflow: auto;
+                background-color: #99B2A5;
             }
-            #sidebar{height: 500px}
-            img
+            #sidebar{height: 750px; position: relative}
+            #level_image
             {    
                 border-style: inset;
                 background-color: #F5FFF5;
                 border-width: 3px;
                 border-color: darkgreen;
+                position:absolute;
+                bottom: 50px;
+            }
+            #playButtonDiv{bottom: 10px; position: absolute; width: 95%}
+            #playButton{ font-size:15px; padding: 6px 24px; }
+            //#player{border: 1px solid red}
+            #tools {display:block}
+            #tools img{display: inline-block; padding: 1px; margin-bottom: 0}
+            #player p{ margin-bottom: 15px!important}
+            
+            #progressbar{background-color: darkgreen}
+            .ui-progressbar {
+                position: relative;
+                border-color: darkgreen!important;
+                text-align: center;
+            }
+            
+            .progress-label {
+                position: absolute;
+                left: 46%;
+                top: 3px;
+                font-weight: bold;
+                text-align: center;
+                //text-shadow: 1px 1px 1px palegreen;
+                color: white;
             }
         </style>     
 
@@ -110,7 +174,7 @@
                             <li  class="active"><a href="level_hub.html">Níveis</a></li>   
                             <li><a href="rules.html">Regras</a></li>                             
                             <li><a href="help.html">Ajuda</a></li>                             
-                            <li><a href="about.html">Sobre</a></li>                                                  
+                            <li><a href="about.html">Sobre</a></li>               
                         </ul>                       
                     </nav>                     
                 </header>                 
@@ -130,21 +194,27 @@
                             <script>
                                 $(document).ready(function(){
                                     $("#menuLevel .myButton").click(function(){
-                                        status = "level";
+                                        type = "level";
                                         document.getElementById("playButton").disabled = false;
                                         currentbutton = this.value;
+                                        var moves = moveList[currentbutton];
+                                        var primitives = primitiveList[currentbutton];
+                                        var tip = tipList[currentbutton];
+                                        var status = statusList[currentbutton]; 
+                                        
                                         console.log("button clicked: " + currentbutton);
-                                        returnLevelInfo(currentbutton,moveList[currentbutton],primitiveList[currentbutton]);
+                                        
+                                        returnLevelInfo(currentbutton, moves, primitives, tip, status);
                                     });
                                 });   
                                 
                                 $(document).ready(function(){
                                     $("#menuChallenge .myButton").click(function(){
-                                        status = "challenge";
+                                        type = "challenge";
                                         document.getElementById("playButton").disabled = false;
                                         currentbutton = this.value;
                                         console.log("button clicked: " + currentbutton);
-                                        returnLevelInfo(currentbutton,moveList[currentbutton],primitiveList[currentbutton]);
+                                        returnChallengeInfo(currentbutton,moveList[currentbutton],primitiveList[currentbutton]);
                                     });
                                 });                                    
                             </script>   
@@ -208,38 +278,58 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="sidebar" style="width:70%;">
-                            <h4 style="text-align:center">Informações do jogo</h4> 
-                            <div id="level"><p>
-                                <b>Categoria:           </b><span id="level_title"></span>  <br>
-                                <span id="stage_title"><b>Nível:               </b></span>  <br>
-                                <b>Objetivo:            </b><span id="obj"></span>          <br>
-                                <b>Passos suficientes:  </b><span id="min_moves"></span>    <br>
-                                <b>Passos usados:       </b><span id="moves"></span>        <br>
-                                <b>Ferramentas básicas: </b><span id="primitives"></span>   <br>
-                                <b>Progresso:           </b><span id="status"></span> 
-                            </p></div>
-                            <div id="level_image" ><img src="img/level0b.png" alt=""></div>
-                            <script>
-                                $(document).ready(function(){
-                                    $("#playButton").click(function(){
-                                        if(status == "level"){
-                                            if(currentbutton == 0){
-                                                window.open('tutorial.html', '_self');
+                        <div id="sidebar" style="width:70%">
+                            <div id="playerInfo">
+                                <h4 style="text-align:center">Progresso</h4> 
+                                
+                                <!--div id="progressbar" style="width:inherit"></div-->
+                                <div id="progressbar"><div class="progress-label">0%</div></div>
+                                
+                                <div id="player"><p>
+                                    <b>Níveis Concluídos:   </b><span id="level_clear"     class="span">0/0 </span><br>     
+                                    <b>Desafios Concluídos: </b><span id="challenge_clear" class="span">0/0 </span><br> 
+                                    <b>Medalhas:            </b><span id="medals"  class="span">0/0 </span><br>     
+                                    <b>Ferramentas Liberadas:</b>
+                                    <span id="tools"></span>                       
+                                    </p>    
+                                </div>
+                                
+                            </div>
+                            <div id="levelInfo">
+                                <h4 style="text-align:center">Informações do jogo</h4> 
+                                <div id="level"><p>
+                                    <b>Categoria:           </b><span id="level_title" class="span"></span> <br>
+                                    <span id="level_type"><b>Nível: </b></span>
+                                                                <span id="level_number" class="span"></span> <br>
+                                    <b>Objetivo:            </b><span id="obj" class="span">        </span> <br>
+                                    <b>Passos suficientes:  </b><span id="min_moves" class="span">  </span> <br>
+                                    <b>Passos usados:       </b><span id="moves" class="span">      </span> <br>
+                                    <b>Ferramentas básicas: </b><span id="primitives" class="span"> </span> <br>
+                                    <b>Dica usada:          </b><span id="tip" class="span">        </span> <br>
+                                    <b>Status:              </b><span id="status" class="span">     </span> 
+                                </p></div>
+                                <div id="level_image" ><img src="img/level0b.png" alt=""></div>
+                                <script>
+                                    $(document).ready(function(){
+                                        $("#playButton").click(function(){
+                                            if(type == "level"){
+                                                if(currentbutton == 0){
+                                                    window.open('tutorial.html', '_self');
+                                                }
+                                                else{
+                                                    page = 'level'+currentbutton+'.html';
+                                                    window.open(page, '_self');
+                                                }
                                             }
                                             else{
-                                                page = 'level'+currentbutton+'.html';
-                                                window.open(page, '_self');
+                                                    page = 'challenge'+currentbutton+'.html';
+                                                    window.open(page, '_self');
                                             }
-                                        }
-                                        else{
-                                                page = 'challenge'+currentbutton+'.html';
-                                                window.open(page, '_self');
-                                        }
-                                    });
-                                });                                 
-                            </script>
-                            <div id="playButtonDiv"><button id="playButton" class="myButton" disabled>Jogar</button></div>
+                                        });
+                                    });                                 
+                                </script>
+                                <div id="playButtonDiv"><button id="playButton" class="myButton" disabled>Jogar</button></div>
+                            </div>
                         </div>   
                     </div>    
                 </div>                 
