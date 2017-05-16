@@ -25,7 +25,7 @@ var listSize = 4;
 function showValidation(){
     var strValidation = "<p><ol>"
     strValidation += "<li>Ambos " + createObjList(1) + " e " + createObjList(2) + " possuem o mesmo raio (segmento AB).</li>";
-    strValidation += "<li>Como " + intPoint + " pertence à intersecção entre os círculos, então " + createObjList(3) + " e " + createObjList(4) + " são congruentes.</li> à AB";
+    strValidation += "<li>Como " + intPoint + " pertence à intersecção entre os círculos, então " + createObjList(3) + " e " + createObjList(4) + " são congruentes à AB.</li>";
     strValidation += "<li>Logo, o triângulo AB"+intPoint+" é equilátero (possui os lados iguais).</li>";
     strValidation += "</ol></p>";
     //console.log("\\"+strValidation);
@@ -110,7 +110,7 @@ function newObjectListener(obj){
         if (drawn("rayLT") || drawn("rayLB") || drawn("rayRB") ||  drawn("rayRT")){
             step = 1.5;
         }        
-        
+        //isPrimitive(objType);
         checkStep();
         
         //LevelCompleted((drawn("segmentLT") && drawn("segmentRT")) || (drawn("segmentLB") && drawn("segmentRB")),4);        
@@ -204,7 +204,7 @@ function checkValidation(){
                         ||  (list[2] == segmentLB && list[3] == segmentRB) || (list[3] ==  segmentLB && list[2] == segmentRB));
         //console.log("condition: " + condition);
         var strHelp = "Observe os segmentos construídos e sua relação com o segmento AB.";
-        displayResult(condition,level,mincount,strHelp,'1');
+        displayResult(condition,level,mincount,strHelp,'1',0,'triângulo equilátero');
     }
 }
 

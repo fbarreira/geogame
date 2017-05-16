@@ -4,6 +4,16 @@
  * Edited by   : Fitrox for GeoGame.com
  */
 
+var primitives = true;
+var tip = false;
+var objType = "";
+var status = "0%";
+
+var setVisible = ggbApplet.setVisible;
+var count = 'Text["Count = 0",'+abspos("0.85","-0.032915")+']';
+var strLength = 1000;
+
+
 function ggbOnInit() {
     //ggbApplet.setWidth(width);
     var element = document.getElementsByClassName("toolbar_button")[0]; 
@@ -13,9 +23,9 @@ function ggbOnInit() {
     ggbApplet.registerUpdateListener("updateListener");
         
     Command('progresso = 0');
-    Command('Progressotext = Text["Progresso: "progresso"%",'+abspos("0.011","-0.032915")+']');
+    //Command('Progressotext = Text["Progresso: "progresso"%",'+abspos("0.011","-0.032915")+']');
     Command('countnumber = 0');
-    Command ('count0 = Text["Passos: "countnumber"",'+abspos("0.85","-0.032915")+']');
+    Command ('count0 = Text["Passos: "countnumber"",'+abspos("0.011","-0.032915")+']');
     Command('W = (-10,-10)'); 
     ggbApplet.setVisible("W",false);
     //Command('welldone = Text["Correto!", W]'); 		
@@ -38,8 +48,6 @@ function abspos(x,y){
 function drawn(object){
     return ggbApplet.getVisible('f_'+object);
 }
-
-var strLength = 1000;
 
 function updateListener(objName) {
 	//strVal = document.ggbApplet.getValueString(objName);
@@ -102,16 +110,6 @@ function translate(objEn) {
     return objPt;
 }
 
-var setVisible = ggbApplet.setVisible;
-  
-var count = 'Text["Count = 0",'+abspos("0.85","-0.032915")+']';
-
-var primitives = true;
-
-var tip = false;
-
-var objType = "";
-
 function getCoord(obj,cmdString){ 
     if (ggbApplet.getObjectType(obj) === "point" ) {
         var x = ggbApplet.getXcoord(obj);
@@ -147,6 +145,9 @@ function checkType(obj){
         case ggbApplet.getObjectType(obj) == "ray":
             objType = "ray";
             break;   
+        case ggbApplet.getObjectType(obj) == "line":
+            objType = "line";
+            break;              
         case ggbApplet.getObjectType(obj) == "triangle":
             objType = "triangle";
             break;         
@@ -173,7 +174,8 @@ function getObjectName(obj){
     //console.log("obj list: " + objList);
 }
 
-function objectCheckout(obj){    
+function objectCheckout(obj){   
+    isPrimitive(objType, primitives);
     if (ggbApplet.getObjectType(obj) == "segment" || ggbApplet.getObjectType(obj) == "circle" || ggbApplet.getObjectType(obj) == "ray" || ggbApplet.getObjectType(obj) == "line") 
     {   
         ggbApplet.setColor(obj,30,178,46);   
@@ -210,10 +212,11 @@ function objectCheckout(obj){
             var sideCount = countString - 9 - 2*aux;
             console.log("polygon number of sides: " + sideCount);
             Command('countnumber = countnumber -'+sideCount);
-        }        
+        }    
     }
     
-function isPrimitive(objType){
+function isPrimitive(objType,primitives){
+    console.log("primitives: " + primitives);
     if(!(objType == 'point' || objType =='segment' || objType == 'ray' || objType == 'circle') && primitives){
         primitives = false;
     }
@@ -276,6 +279,9 @@ function verifyobject(obj,target,type,x,y){
         case "ray":
            status = checksegment(obj,target,x,y);
            break; 
+        case "line":
+           status = checksegment(obj,target,x,y);
+           break;            
        case "triangle":
            status = checkobject(obj,target,x,y);
            break;
@@ -328,7 +334,7 @@ function checkwrongobject(obj,target,x,y) {
 
 // this functions check line segments
 function checksegment(obj,target,x,y) {
-    if (ggbApplet.getObjectType(obj) == "segment" || ggbApplet.getObjectType(obj) == "ray") {
+    if (ggbApplet.getObjectType(obj) == "segment" || ggbApplet.getObjectType(obj) == "ray" || ggbApplet.getObjectType(obj) == "line") {
         var beginpointobject = "Point["+obj+",0]";
         var endpointobject = "Point["+obj+",1]";
         var beginpointtarget = "Point["+target+",0]";
@@ -352,7 +358,7 @@ function checksegment(obj,target,x,y) {
 
 // this function checks wrong line segments --- probably can be merged with checksegment()
 function checkwrongsegment(obj,target,x,y) {
-    if (ggbApplet.getObjectType(obj) == "segment" || ggbApplet.getObjectType(obj) == "ray") {
+    if (ggbApplet.getObjectType(obj) == "segment" || ggbApplet.getObjectType(obj) == "ray" || ggbApplet.getObjectType(obj) == "line") {
         var beginpointobject = "Point["+obj+",0]";
         var endpointobject = "Point["+obj+",1]";
         var beginpointtarget = "Point["+target+",0]";
@@ -413,7 +419,6 @@ function checktarget(obj,type,target,container,x,y){
             objTag = getObjectName(obj);
             ggbApplet.setLabelVisible(objTag, true);
             //console.log("obj name: " + objTag);  
-            
             return objTag;
         }
         else if(drawn(target) && container == obj){    //name already assigned
@@ -447,12 +452,14 @@ function checktarget(obj,type,target,container,x,y){
 }
 
 //Stores next level
-function setNextLevel(level){
+function setNextLevel(level,mincount){
     var nextLevel = level + 1;
     console.log("next level: " + nextLevel);
     var count = ggbApplet.getValue("countnumber");
     var moveList = JSON.parse(localStorage.getItem("moveList"));
     var primitiveList = JSON.parse(localStorage.getItem("primitiveList"));
+    var tipList = JSON.parse(localStorage.getItem("tipList"));
+    
     console.log("moves: " + count + " - movelist["+level+"]: " + moveList[level]);
     if(count < moveList[level] || moveList[level] == 0){
         console.log("check!");
@@ -471,6 +478,15 @@ function setNextLevel(level){
         primitiveList[level] = primitives;
         localStorage.setItem("primitiveList", JSON.stringify(primitiveList));
     }
+    
+    if(tipList[level] && !tip){
+        tipList[level] = tip;
+        localStorage.setItem("tipList", JSON.stringify(tipList));
+    }
+    
+    var mimmoves = (moveList[level] == mincount) ? true : false;
+    
+    setStatus(level,mimmoves,primitiveList[level],tipList[level]);
 }
 
 //Stores next challenge
@@ -490,7 +506,7 @@ function setLevelChallenge(levelChallenge){
 //Actived when construction is completed, displays bottom box
 function LevelCompleted(){
         Command('progresso = 100');
-        Command('Complete = Text["Nível Completo!",  '+abspos("0.40","-0.032915")+']');   
+        Command('Complete = Text["Construção Concluída!",  '+abspos("0.39","-0.032915")+']');   
         $( "#valid_box" ).toggle();
         window.scrollTo(0,document.body.scrollHeight); 
         document.getElementById("resetbutton").disabled = true;
@@ -556,24 +572,45 @@ function createSelectedList(listSize){
 }
 
 //display the result of level
-function displayResult(condition,level,mincount,strHelp,challenge){
+function displayResult(condition,level,mincount,strHelp,challenge,tool, toolname){
     if(condition){
-        setNextLevel(level);
+        setNextLevel(level,mincount);
         var nextLevel = level + 1;
         var count = ggbApplet.getValue("countnumber");
-        var strWin = "Parabéns. Você concluiu o nível "+level+"! Vá para o <a href='level"+nextLevel+".html'>Nível "+nextLevel+"</a>";
+     
+        if(level == 0){
+            var strWin = "Parabéns. Você concluiu o tutorial! Vá para o <a href='level1.html'>Nível 1</a>";    
+        } else{
+            var strWin = "Parabéns. Você concluiu o <b>nível "+level+"</b>! Vá para o <a href='level"+nextLevel+".html'>Nível "+nextLevel+"</a>";   
+        }
+        
         if (count === mincount){
-            strWin += "<br>Você realizou a construção com o menor número de passos possíveis!";
-            
-        }     
+            strWin += "<br>Você realizou a construção com o menor número de passos possíveis!";  
+        }  
+        
+        //console.log("tip: " + tip);
         if(!tip){
             strWin += "<br>Você realizou a construção sem a dica.";
+        }
+        //console.log("primitives: " + primitives);
+        if(primitives){
+            strWin += "<br>Você realizou a construção apenas com ferramentas básicas.";
+        }
+        if(tool != -1){
+            var toolList = JSON.parse(localStorage.getItem("toolList"));
+            if(!toolList[tool]){
+                toolList[tool] = true;
+                localStorage.setItem("toolList",        JSON.stringify(toolList));
+                strWin += "<br>Você liberou uma nova ferramenta: <b>"+toolname+"</b>";
+            }
         }
         if(challenge != '0'){
             if(setLevelChallenge(challenge)){
                 strWin += "<br>Você liberou um novo desafio! Vá em <a href='level_hub.html'>Níveis</a> para jogar.";
             }
         }
+                
+        strWin += "<br>Nível  completo com <b>"+status+"</b> de êxito.";
         
         document.getElementById('awnser').innerHTML = strWin;
         
@@ -581,4 +618,22 @@ function displayResult(condition,level,mincount,strHelp,challenge){
     else{
         document.getElementById('awnser').innerHTML = strHelp;
     }     
+}
+
+function setStatus(level,moves,primitives,tip){
+    var statusList = JSON.parse(localStorage.getItem("statusList"));
+    var levelstatus = 25;
+    if(moves){
+        levelstatus += 20;
+    }
+    if(primitives){
+        levelstatus += 20;
+    }
+    if(!tip){
+        levelstatus += 10;
+    }
+    
+    statusList[level] = levelstatus; 
+    localStorage.setItem("statusList", JSON.stringify(statusList));
+    status =  levelstatus.toString() + "%";
 }

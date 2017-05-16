@@ -19,14 +19,20 @@ function loadLastLevel() {
         //document.write('<meta http-equiv="refresh" content="1; url=/game_test1/level'+lastLevel+'.html" />');
         document.write('<meta http-equiv="refresh" content="1; url=/geogame/level'+lastLevel+'.html" />');
     } else {
-        // Sorry! No Web Storage support..
-        var levelList = createarray(maxLevel, 0);
-        var primitiveList = createarray(maxLevel, false);
-        localStorage.setItem("moveList", JSON.stringify(levelList));
-        localStorage.setItem("primitiveList", JSON.stringify(primitiveList));
-        console.log("going to tutorial...");
+        // Sorry! No Web Storage support..      
+        var boolList = createarray(maxLevel, false);
+        var intList = createarray(maxLevel,0);
+        var toolList = createarray(10,false);
+        
+        localStorage.setItem("moveList",        JSON.stringify(intList));
+        localStorage.setItem("primitiveList",   JSON.stringify(boolList));
+        localStorage.setItem("statusList",      JSON.stringify(intList));
+        localStorage.setItem("tipList",         JSON.stringify(boolList));
+        localStorage.setItem("goldList",        JSON.stringify(boolList));
+        localStorage.setItem("toolList",        JSON.stringify(toolList));
         localStorage.setItem('lastLevel','0');
-        localStorage.setItem('lastChallenge','0');                    
+        localStorage.setItem('lastChallenge','0');   
+        console.log("going to tutorial...");
         //document.write('<meta http-equiv="refresh" content="1; url=/game_test1/tutorial.html" />'); 
         document.write('<meta http-equiv="refresh" content="1; url=/geogame/tutorial.html" />'); 
     }

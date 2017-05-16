@@ -177,12 +177,14 @@ function checkValidation(){
         console.log("Your choice is: "+strtext1+" and "+strtext2+".");
         //document.getElementById('feedback').innerHTML = "Your choice is "+strtext;
         //$( "#answer" ).toggle();    
+        var strHelp = "Observe os segmentos construídos e sua relação com o segmento AB.";
         if(strvalue1 === "C" && strvalue2 === "A" || strvalue1 === "A" && strvalue2 === "C"){
-            setNextLevel(level);
-            document.getElementById('awnser').innerHTML = "Parabéns. Você concluiu o tutorial! Vá para o <a href='level1.html'>Nível 1</a>";
+            //setNextLevel(level);
+            //document.getElementById('awnser').innerHTML = "Parabéns. Você concluiu o tutorial! Vá para o <a href='level1.html'>Nível 1</a>";
+            displayResult(true,level,mincount,strHelp,'0',-1,"");
         }
         else{
-            document.getElementById('awnser').innerHTML = "Tente outra vez.<br>Dica: Arraste o <span style='color:cornflowerblue'>ponto C</span> até os vertíces do segmento AB.";
+            displayResult(false,level,mincount,strHelp,'0'-1,"");
         }
     }
     else{
