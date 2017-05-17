@@ -13,16 +13,61 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" /> 
         
         <link rel="stylesheet" type="text/css" href="css/test3/styles_test3e.css"> 
+        <link rel="stylesheet" href="css/test3/custom.jquery-ui.css" /> 
         
         <link rel="shortcut icon" href="favicon.ico" /> 
         
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>         
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>  
+        
         <script type="text/javascript" src="javascript/deployggb_original.js"></script>         
         <script type="text/javascript" src="javascript/ggbapplet_parameters.js"></script>         
         
         <script type="text/javascript" src="javascript/system_base.js"></script>         
-        <script type="text/javascript" src="javascript/system_level1.js"></script>   
-           
+        <script type="text/javascript" src="javascript/system_level1b.js"></script>   
+        
+        <style>
+            //#wrap{border: 1px solid blue}
+            //#main, #sidebar{border: 1px solid red}
+            
+            #list1, #list2{
+                display:inline-block;
+            }
+            
+            #sortable1, #sortable2 {
+                width: 245px;
+                min-height: 35px;
+                overflow: auto;
+                height: 215px;    
+                list-style-type: none;
+                margin: 0;
+                padding: 5px 0 0 0;
+                float: left;
+                margin-right: 10px;
+                background-color: teal;
+                border: 3px double darkgreen;
+            }
+            #sortable1 li, #sortable2 li {
+                margin: 0 5px 5px 5px;
+                padding: 5px;
+                font-size: 1em;
+                width: 95%;
+                border: 1px solid darkgreen;
+                //background-color: limegreen;
+                color: limegreen;
+            }
+            
+            #textbox1{width:46%}
+            #textbox2{width:54%}
+        </style>        
+        
+        <script>
+            $( function() {
+                $( "#sortable1, #sortable2" ).sortable({
+                    connectWith: ".connectedSortable"
+                }).disableSelection();
+            } );    
+        </script>
     </head>     
     <body>      
         <script>
@@ -77,7 +122,7 @@
                     <p><strong>Objetivo</strong>: Construir um triângulo de base AB com três lados iguais.</p> 
                 </div>                 
                 <div id="reference"> 
-                    <img src="img/level1b.png" alt="Um triângulo equilátero de base AB"> 
+                    <img src="img/levels/level1b.png" alt="Um triângulo equilátero de base AB"> 
                 </div>                 
                 <div id="min_moves"> 
                     <p>Passos suficientes: 4</p> 
@@ -117,8 +162,8 @@
             <div id="sidebar">
                 <div class="applet"> 
                     <script type="text/javascript">
-                        //parameters.customToolBar = "0 | 501 | 5 | 15 | 18 | 10 | 16"; 
-                        parameters.customToolBar = "501 | 5 | 15 | 18 | 10";
+                        parameters.customToolBar = "0 | 501 | 5 | 15 | 18 | 2 | 10 | 16 | 100001"; 
+                        //parameters.customToolBar = "501 | 5 | 15 | 18 | 10";
                         parameters.filename = "ggb/Level1f.ggb";                       
                         //parameters.language = "pt";
                         //parameters.country = "BR";
@@ -126,33 +171,39 @@
                     <div id="applet_container"></div>                     
                 </div>                 
             </div>         
-            <div id="tablebar">
-                <div id="textbox1" class="coltext"> 
-                    <form name="listenerForm"> 
-                        <div style="text-align: left; width: inherit"> 
-                            <br>Tabela de objetos:
-                            <br> 
-                            <textarea style="resize:none; width: 100%" name="consState" rows="10"></textarea>                             
-                        </div>                         
-                    </form>                     
-                </div>  
-                
-                <div id="textbox2" class="coltext"> 
-                    <form name="listenerForm2"> 
-                        <div style="text-align: left; width: inherit"> 
-                            <br>Tabela de ferramentas:
-                            <br> 
-                            <textarea style="resize:none; width: 100%" name="consState2" rows="10"></textarea>                             
-                        </div>                         
-                    </form>                     
-                </div>   
-            </div>
+
             <div id="bottonbar"> 
-                <div id="valid_box"> 
-                    <br>Justifique sua construção:
-                    <br> 
-                    <div id="validation_questions"></div>                     
-                    <div id="validation_button"> 
+                <div id="valid_box" style="background-color:#C4E5D4; border:1px solid darkgreen; padding:5px; border-radius:10px"> 
+                    <h3>Justifique sua construção:</h3>
+                    <div id="tablebar">
+                        <p>Arraste para a lista de respostas as propriedades e ferramentas que foram usadas durante a construção.</p>
+                        <div id="textbox1" class="coltext">
+                            <div id="list1">
+                                <br>Lista de Argumentos 
+                                <br> 
+                                <ul id="sortable1" class="connectedSortable">
+                                    
+                                </ul>
+                            </div>
+                            <div id="list2">
+                                <br>Lista de Resposta
+                                <br> 
+                                <ul id="sortable2" class="connectedSortable">
+                                </ul>
+                            </div>
+                        </div> 
+                        <div id="textbox2" class="coltext" > 
+                            <form name="listenerForm"> 
+                                <div style="text-align: left; width: inherit"> 
+                                    <br>Tabela de objetos:
+                                    <br> 
+                                    <textarea style="resize:none; width: 100%" name="consState" rows="15"></textarea>                             
+                                </div>                         
+                            </form>                     
+                        </div>                         
+                    </div>
+                    <!--div id="validation_questions"></div-->                     
+                    <div id="validation_button" style="margin-top:10px"> 
                         <script>
                             $(document).ready(function(){
                                 $("#checkValidation").click(function(){
