@@ -61,14 +61,14 @@ html
 {
     float: left;
     width: auto;
-    max-width: 50%;
+    max-width: 40%;
 }
 
 #sidebar
 {
     float: right;
     width: auto;
-    max-width: 50%;
+    max-width: 60%;
 }
 
 #titlebar
@@ -424,7 +424,7 @@ ol li
 	-moz-border-radius:6px;
 	-webkit-border-radius:6px;
 	border-radius:6px;
-	border:1px solid #dcdcdc;
+	border:1px solid darkgreen;
 	display:inline-block;
 	cursor:pointer;
 	color:#666666;
@@ -534,5 +534,6 @@ textarea {
     padding-right: 15px;
     padding-left: 15px;
     width: 50%;
+    //border: 1px solid red;
 }
 
