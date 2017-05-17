@@ -23,13 +23,13 @@ var listSize = 4;
 
 //Shows question for validation
 function showValidation(){
-    var strValidation = "<p><ol>"
-    strValidation += "<li>Ambos " + createObjList(1) + " e " + createObjList(2) + " possuem o mesmo raio (segmento AB).</li>";
-    strValidation += "<li>Como " + intPoint + " pertence à intersecção entre os círculos, então " + createObjList(3) + " e " + createObjList(4) + " são congruentes à AB.</li>";
-    strValidation += "<li>Logo, o triângulo AB"+intPoint+" é equilátero (possui os lados iguais).</li>";
-    strValidation += "</ol></p>";
+    var strValidation = '<li id="i1" class="ui-state-default">Item 1</li>';
+    strValidation += '<li id="i2" class="ui-state-default">Item 2</li>';
+    strValidation += '<li id="i3" class="ui-state-default">Item 3</li>';
+    strValidation += '<li id="i4" class="ui-state-default">Item 4</li>';
+
     //console.log("\\"+strValidation);
-    document.getElementById('validation_questions').innerHTML = strValidation;   
+    document.getElementById('sortable1').innerHTML = strValidation;   
 }
 
 //this function checks the steps of the level
