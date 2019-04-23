@@ -8,7 +8,7 @@ This project is intended to teach Geometry using a game about geometric construc
 The website requires the Geogebra API. More can be seen here: https://wiki.geogebra.org/en/Reference:GeoGebra_Apps_API
 
 ## Status
-This project is currently inactive. No further updates expected.
+This project is currently inactive. No further updates expected. The academic proposal related to this project can be read at geogame-projeto.pdf (Available only in portuguese).
 
 ## Contact
 To know more about the project you can reach me at fbarreiraf@gmail.com
